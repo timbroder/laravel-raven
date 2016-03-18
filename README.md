@@ -68,14 +68,19 @@ If the job fails to add into the queue, it will be sent directly to sentry, slow
 
 ## Usage
 
-To monitor exceptions, simply use the `Log` facade or helper:
+To monitor exceptions, simply use the `Log` facade or helper. This can be done in ```app/Exceptions/Handler.php```:
 
 ```php
-Log::error($exception);
+public function report(Exception $e)
+{
+    Log::error($e);
+    
+    // or
 
-// or
-
-logger()->error($exception);
+    logger()->error($exception);
+    
+    return parent::report($e);
+}
 ```
 
 You can change the logs used by changing the log level in the config by modifying the env var.
